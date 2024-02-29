@@ -4,3 +4,5 @@ mocking an interface with a val returning a value class
 worked perfectly using mockk-1.13.9.
 
 In mockk-1.13.10 we get a class cast exception. See ReproducerSpec.
+
+Relate issue: https://github.com/mockk/mockk/issues/1225
