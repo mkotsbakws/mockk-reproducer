@@ -28,11 +28,8 @@ object ReproducerSpec : FunSpec({
             fooMock.valueBar shouldBeEqualTo aValueBar
         }
 
-
-        test("instead it throws a class cast exception") {
-            invoking {
-                fooMock.valueBar shouldBeEqualTo aValueBar
-            } shouldThrow ClassCastException::class withMessage
+        test("instead just calling mocked method throws a class cast exception") {
+            invoking {  fooMock.valueBar } shouldThrow ClassCastException::class withMessage
                     "class ValueBar cannot be cast to class java.lang.String " +
                     "(ValueBar is in unnamed module of loader 'app'; " +
                     "java.lang.String is in module java.base of loader 'bootstrap')"
