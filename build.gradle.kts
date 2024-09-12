@@ -12,7 +12,7 @@ repositories {
 dependencies {
     testImplementation("io.kotest:kotest-framework-api:5.8.0")
     testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
-    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("io.mockk:mockk:1.13.12")
     testImplementation("org.amshove.kluent:kluent:1.73")
 }
 

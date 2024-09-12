@@ -24,11 +24,11 @@ object ReproducerSpec : FunSpec({
         val fooMock = mockk<Foo> {
             every { valueBar } returns aValueBar
         }
-        xtest("mockk should succeed returning the value class - but actually fails") {
+        test("mockk should succeed returning the value class - but actually fails") {
             fooMock.valueBar shouldBeEqualTo aValueBar
         }
 
-        test("instead just calling mocked method throws a class cast exception") {
+        xtest("instead just calling mocked method throws a class cast exception") {
             invoking {  fooMock.valueBar } shouldThrow ClassCastException::class withMessage
                     "class ValueBar cannot be cast to class java.lang.String " +
                     "(ValueBar is in unnamed module of loader 'app'; " +
