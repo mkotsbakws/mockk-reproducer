@@ -1,4 +1,6 @@
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.invoking
@@ -8,41 +10,29 @@ import org.amshove.kluent.withMessage
 
 object ReproducerSpec : FunSpec({
 
-    val aRegularBar = RegularBar("aRegularBar")
     val aValueBar = ValueBar("aValueBar")
 
-    context("with a mocked interface returning a regular class") {
-        val fooMock = mockk<Foo> {
-            every { regularBar } returns aRegularBar
-        }
-        test("mockk should succeed returning the regular class") {
-            fooMock.regularBar shouldBeEqualTo aRegularBar
-        }
-    }
+    context("Reproduce issue") {
+        test("with a mocked interface returning a value class from getValue") {
+            // Arrange
+            val expectedResult = Result.success(aValueBar)
+            val fooMock = mockk<Foo>()
+            coEvery { fooMock.getValueBar() } returns Result.success(aValueBar)
 
-    context("with a mocked interface returning a value class") {
-        val fooMock = mockk<Foo> {
-            every { valueBar } returns aValueBar
-        }
-        test("mockk should succeed returning the value class - but actually fails") {
-            fooMock.valueBar shouldBeEqualTo aValueBar
-        }
-
-        xtest("instead just calling mocked method throws a class cast exception") {
-            invoking {  fooMock.valueBar } shouldThrow ClassCastException::class withMessage
-                    "class ValueBar cannot be cast to class java.lang.String " +
-                    "(ValueBar is in unnamed module of loader 'app'; " +
-                    "java.lang.String is in module java.base of loader 'bootstrap')"
+            // Act
+            val result = fooMock.getValueBar()
+            // Assert
+            result.isSuccess shouldBe true
+            result.getOrNull()?.id shouldBeEqualTo aValueBar.id
+            result shouldBeEqualTo expectedResult
         }
     }
 })
 
-interface Foo {
-    val regularBar: RegularBar
-    val valueBar: ValueBar
+class Foo {
+    suspend fun getValueBar(): Result<ValueBar> = TODO()
 }
 
-class RegularBar(val id: String)
 
 @JvmInline
 value class ValueBar(val id: String)

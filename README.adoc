@@ -1,8 +1,8 @@
-= Reproducer for a bug in mockk 1.13.10
+= Reproducer for a bug in mockk 1.13.12
 
-mocking an interface with a val returning a value class
+mocking an interface with a val returning a value class wrapped in Result
 worked perfectly using mockk-1.13.9.
 
-In mockk-1.13.10 we get a class cast exception. See ReproducerSpec.
+In mockk-1.13.12 we get a class cast exception. See ReproducerSpec.
 
-Relate issue: https://github.com/mockk/mockk/issues/1225
+Related issue: https://github.com/mockk/mockk/issues/1073
